@@ -1,6 +1,23 @@
-#include <stdio.h>
+#include "philo.h"
+#include <unistd.h>
+#include <stdlib.h>
 
-int main()
+t_data *fill_data(char **argv)
 {
-    printf("Hello World!!\n");
+    t_data *data;
+    
+    data = malloc(1024);
+    data->die = ft_atoi(argv[1]);
+    data->eat = ft_atoi(argv[1]);
+    data->sleep = ft_atoi(argv[1]);
+    return (data);
+}
+int main(int argc, char *argv[])
+{
+    t_data *data;
+    printf("Data %d\n",argc);
+    if (argc != 2)
+        exit(1);
+    data = fill_data(argv);
+    printf("%d",data->sleep);
 }

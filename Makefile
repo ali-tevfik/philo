@@ -6,7 +6,7 @@
 #    By: adoner <adoner@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/01 13:16:02 by adoner        #+#    #+#                  #
-#    Updated: 2022/04/21 03:47:04 by tevfik        ########   odam.nl          #
+#    Updated: 2022/04/21 03:56:50 by tevfik        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ FLAGS = -Wall -Wextra -Werror
 DBG_FLAGS = -g -fsanitize=address
 
 # Source, tests, header and object files
-SRC_FILES = philo.c
+SRC_FILES = philo.c \
+			ft_atoi.c
 
 HEADER_FILES = 	philo.h
 
