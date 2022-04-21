@@ -1,6 +1,8 @@
 #ifndef PHILO_H
 # define PHILO_H
 
+#include <unistd.h>
+#include <stdlib.h>
 # include <stdbool.h>
 # include <stdio.h>
 typedef struct  s_philo

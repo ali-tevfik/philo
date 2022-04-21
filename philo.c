@@ -1,6 +1,4 @@
 #include "philo.h"
-#include <unistd.h>
-#include <stdlib.h>
 
 t_data *fill_data(char **argv)
 {
