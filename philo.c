@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/09 13:03:02 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/09 17:14:26 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ uint64_t	get_time_in_ms(void)
 }
 
 
+
 int main(int argc, char *argv[])
 {
     t_data *data;
     int x;
     pthread_t start_routine[ft_atoi(argv[1])];
+    pthread_t check_dead;
     int i;
     
     i = ft_atoi(argv[1]);
@@ -42,11 +44,10 @@ int main(int argc, char *argv[])
     while (i > x)
     {
         pthread_create(&start_routine[x], NULL, routine, &data->philo[x]);
-        // pthread_detach(start_routine[x]);
-        usleep(1000);
-        // pthread_join(start_routine[x], NULL);
         x++;
     } 
+    pthread_create(&check_dead, NULL, die_thread, &data);
+    pthread_join(check_dead, NULL);
     int j = 0;  
     while(j < x)
     {

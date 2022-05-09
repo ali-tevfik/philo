@@ -6,7 +6,7 @@
 #    By: adoner <adoner@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/01 13:16:02 by adoner        #+#    #+#                  #
-#    Updated: 2022/05/06 15:03:15 by adoner        ########   odam.nl          #
+#    Updated: 2022/05/09 16:32:28 by adoner        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC_FILES = philo.c \
 			ft_atoi.c \
 			ft_isdigit.c \
 			init_data.c \
-			routine.c 
+			routine.c \
+			died.c
 
 HEADER_FILES = 	philo.h
 

@@ -19,14 +19,6 @@
 # include <sys/time.h>
 # include <string.h>
 
-// typedef struct  s_philo
-// {
-//     bool    l_fork;
-//     bool    r_fork;
-//     bool    eating;
-//     bool    sleeping;
-//     bool    die;
-// }               t_philo;
 typedef struct s_philo
 {
     pthread_mutex_t fork;
@@ -34,10 +26,12 @@ typedef struct s_philo
     int             index;
     struct s_data   *data;
     uint64_t        ate_time;
+    int             ate_circlu;
 }               t_philo;
 
 typedef struct s_data
 {
+    uint64_t        first_time;
     uint64_t		time_to_die;
     int		time_to_sleep;
     int		time_to_eat;
@@ -51,10 +45,9 @@ typedef struct s_data
 int			ft_atoi(const char *str);
 bool		is_digit(char *arg[]);
 void		fill_data(char **argv, t_data *data);
-void		to_sleep(t_philo *philo);
-void		to_eat(t_philo *philo);
-void 		die(t_philo *philo);
 void		is_dead(uint64_t oude_tijd, t_philo *philo);
 void 		*routine(void *s_data);
 uint64_t	get_time_in_ms(void);
+void *die_thread(void *s_data);
+void print_info(u_int64_t time, int index, char *txt, char *COLORCODE);
 # endif
