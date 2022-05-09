@@ -6,7 +6,7 @@
 #    By: adoner <adoner@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/01 13:16:02 by adoner        #+#    #+#                  #
-#    Updated: 2022/05/04 14:54:13 by adoner        ########   odam.nl          #
+#    Updated: 2022/05/06 15:03:15 by adoner        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,15 @@ YELLOW = \033[1;33m
 
 # Compiler settings
 GCC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 DBG_FLAGS = -g -fsanitize=address
 
 # Source, tests, header and object files
 SRC_FILES = philo.c \
 			ft_atoi.c \
-			ft_isdigit.c
+			ft_isdigit.c \
+			init_data.c \
+			routine.c 
 
 HEADER_FILES = 	philo.h
 
@@ -36,13 +38,15 @@ OBJ = $(SRC_FILES:%.c=$(OBJ_DIR)/%.o)
 # Program name
 NAME = philo
 
-
 # Build release
 all: $(OBJ_DIR) $(NAME)
 
 # Build normal
 $(OBJ_DIR):
 	@mkdir -p $@
+
+
+
 
 $(NAME): $(OBJ)
 	$(GCC) $(FLAGS) $^ -o $@
