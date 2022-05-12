@@ -6,7 +6,7 @@
 #    By: adoner <adoner@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/01 13:16:02 by adoner        #+#    #+#                  #
-#    Updated: 2022/05/09 16:32:28 by adoner        ########   odam.nl          #
+#    Updated: 2022/05/12 16:40:37 by adoner        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,15 +19,16 @@ YELLOW = \033[1;33m
 
 # Compiler settings
 GCC = gcc
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 DBG_FLAGS = -g -fsanitize=address
 
 # Source, tests, header and object files
 SRC_FILES = philo.c \
-			ft_atoi.c \
-			ft_isdigit.c \
+			utils.c \
 			init_data.c \
 			routine.c \
+			check_data.c \
+			protect_malloc.c \
 			died.c
 
 HEADER_FILES = 	philo.h
@@ -46,9 +47,6 @@ all: $(OBJ_DIR) $(NAME)
 $(OBJ_DIR):
 	@mkdir -p $@
 
-
-
-
 $(NAME): $(OBJ)
 	$(GCC) $(FLAGS) $^ -o $@
 	@echo "$(GREEN) Created minishell executable.$(NORMAL)"
@@ -56,7 +54,7 @@ $(NAME): $(OBJ)
 $(OBJ): $(OBJ_DIR)/%.o : %.c $(HEADER_FILES)
 	@mkdir -p $(@D)
 	@$(GCC) $(FLAGS) -c $< -o $@
-	
+
 clean:
 	@rm -rdf $(OBJ_DIR)
 	@echo "$(RED) Deleted all object files.$(NORMAL)"

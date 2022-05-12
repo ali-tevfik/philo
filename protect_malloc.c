@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   philo.c                                            :+:    :+:            */
+/*   protect_malloc.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/12 16:31:26 by adoner        ########   odam.nl         */
+/*   Created: 2022/05/10 11:44:49 by adoner        #+#    #+#                 */
+/*   Updated: 2022/05/12 16:32:27 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	free_data(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->philo[i])
-	{
-		pthread_mutex_destroy(&data->philo[i]->fork);
-		pthread_detach(data->philo[i]->thread);
-		free(data->philo[i]);
-		i++;
-	}
-	if (data->philo)
-		free(data->philo);
-	if (data->check_dead)
-		pthread_detach(data->check_dead);
-}
-
-int	main(int argc, char *argv[])
+t_data	*protect_data(void)
 {
 	t_data	*data;
 
-	if (!check_argument(argv, argc))
+	data = (t_data *)malloc(sizeof(t_data));
+	if (!data)
 		exit(-1);
-	data = protect_data();
-	fill_data(argv, data);
-	create_thread(data);
+	return (data);
+}
+
+t_philo	*protect_t_philo(void)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)malloc(sizeof(t_philo));
+	if (!philo)
+		exit(-1);
+	return (philo);
+}
+
+t_philo	**protect_double_t_philo(t_data *data)
+{
+	data->philo = (t_philo **)malloc(sizeof(t_philo *)
+			* (data->number_of_philosophers + 1));
+	if (!data->philo)
+		exit(-1);
+	return (data->philo);
 }
