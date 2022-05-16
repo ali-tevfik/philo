@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/12 16:31:26 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/13 15:01:35 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,5 @@ int	main(int argc, char *argv[])
 	data = protect_data();
 	fill_data(argv, data);
 	create_thread(data);
+	return (EXIT_SUCCESS);
 }

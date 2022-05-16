@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 16:37:00 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/12 16:37:47 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/16 12:28:05 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_data
 	int			number_of_times_each_philosopher_must_eat;
 	bool		is_number_of_times_each_philosopher_must_eat;
 	bool		dead;
+	int			philo_eat_turn;
 	t_philo		**philo;
 }				t_data;
 

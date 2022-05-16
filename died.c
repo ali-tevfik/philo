@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 16:31:07 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/12 16:38:19 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/16 12:26:34 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	die(t_philo *philo)
 	result = entry - philo->ate_time;
 	if (result > data->time_to_die)
 	{
-		print_info(philo->data->first_time, philo->index, "die", RED);
+		print_info(philo->data->first_time, philo->index, "died", RED);
 		philo->data->dead = true;
 		free_data(data);
-		exit(0);
+		exit(1);
 	}
 }
 

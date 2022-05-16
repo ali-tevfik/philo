@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:20:47 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/12 16:30:35 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/16 13:57:12 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	fill_data(char **argv, t_data *data)
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
+	data->philo_eat_turn = 0;
 	data->first_time = get_time_in_ms();
 	data->dead = false;
 	data->is_number_of_times_each_philosopher_must_eat = true;
@@ -77,6 +78,5 @@ void	create_thread(t_data *data)
 		pthread_join(data->philo[j]->thread, NULL);
 		j++;
 	}
-	printf("main\n");
 	free_data(data);
 }

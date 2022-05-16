@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:25:13 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/12 16:33:44 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/16 14:52:38 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	to_sleep(t_philo *philo)
 	t_data	*data;
 
 	data = ((t_data *)philo->data);
-	print_info(philo->data->first_time, philo->index, "to_sleep", BLUE);
+	print_info(philo->data->first_time, philo->index, "is sleeping", BLUE);
 	usleep(data->time_to_sleep * 1000);
 }
 
@@ -43,7 +43,7 @@ void	to_eat(t_philo *philo)
 		"has taken r fork", PURPLE);
 	philo->is_eat = true;
 	philo->ate_time = get_time_in_ms();
-	print_info(philo->data->first_time, philo->index, "to_eat", GREEN);
+	print_info(philo->data->first_time, philo->index, "is eating", GREEN);
 	usleep(data->time_to_eat * 1000);
 	philo->is_eat = false;
 	pthread_mutex_unlock(&philo->fork);
@@ -61,16 +61,19 @@ void	*routine(void *s_data)
 	while (!(*philo)->data->dead)
 	{
 		to_eat(*philo);
+		(*philo)->ate_circlu++;
+		if ((*philo)->data->is_number_of_times_each_philosopher_must_eat)
+		{
+			if ((*philo)->ate_circlu
+				== (*philo)->data->number_of_times_each_philosopher_must_eat)
+			{
+				(*philo)->data->philo_eat_turn++;
+				return (philo);
+			}
+		}
 		to_sleep(*philo);
 		print_info((*philo)->data->first_time, (*philo)->index,
 			"is thinking", YELLOW);
-		if ((*philo)->data->is_number_of_times_each_philosopher_must_eat)
-		{
-			x++;
-			if (x == (*philo)->data->number_of_times_each_philosopher_must_eat)
-				(*philo)->data->dead = true;
-		}
-		(*philo)->ate_circlu++;
 	}
 	return (philo);
 }
