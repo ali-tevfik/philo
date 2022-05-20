@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 16:31:07 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/16 12:26:34 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/20 14:13:21 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	die(t_philo *philo)
 	result = entry - philo->ate_time;
 	if (result > data->time_to_die)
 	{
-		print_info(philo->data->first_time, philo->index, "died", RED);
+		print_info(philo->data->first_time, philo, "died", RED);
 		philo->data->dead = true;
 		free_data(data);
 		exit(1);
@@ -33,9 +33,9 @@ void	die(t_philo *philo)
 
 bool	check_how_many_times_eat(t_data *data)
 {
-	if (data->is_number_of_times_each_philosopher_must_eat)
+	if (data->must_eat > 0)
 	{
-		if (data->number_of_times_each_philosopher_must_eat - 1
+		if (data->must_eat
 			== data->philo[data->number_of_philosophers - 1]->ate_circlu)
 			return (true);
 	}
@@ -60,11 +60,11 @@ void	*die_thread(void *s_data)
 			if (now - (*data)->philo[i]->ate_time > (*data)->time_to_die
 				&& !(*data)->philo[i]->is_eat)
 				die((*data)->philo[i]);
-			if (check_how_many_times_eat((*data)))
+			else if (check_how_many_times_eat((*data)))
 				return (data);
 			i++;
 		}
-		usleep(500);
+		usleep(100);
 	}
 	return (data);
 }

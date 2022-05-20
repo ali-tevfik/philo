@@ -6,11 +6,21 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/13 15:01:35 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/19 14:07:30 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	smart_sleep(uint64_t ms)
+{
+	uint64_t	entry;
+
+	entry = get_time_in_ms();
+	while ((get_time_in_ms() - entry) < ms)
+		usleep(100);
+}
+
 
 void	free_data(t_data *data)
 {

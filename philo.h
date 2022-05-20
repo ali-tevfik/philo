@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 16:37:00 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/16 12:28:05 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/19 14:05:58 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 typedef struct s_philo
 {
 	pthread_mutex_t	fork;
+	pthread_mutex_t	eat;
 	pthread_t		thread;
 	uint64_t		ate_time;
 	bool			is_eat;
@@ -44,13 +45,13 @@ typedef struct s_philo
 typedef struct s_data
 {
 	uint64_t	first_time;
+	pthread_mutex_t	print;
 	uint64_t	time_to_die;
 	pthread_t	check_dead;
 	int			time_to_sleep;
 	int			time_to_eat;
 	int			number_of_philosophers;
-	int			number_of_times_each_philosopher_must_eat;
-	bool		is_number_of_times_each_philosopher_must_eat;
+	int			must_eat;
 	bool		dead;
 	int			philo_eat_turn;
 	t_philo		**philo;
@@ -62,11 +63,12 @@ void		is_dead(uint64_t oude_tijd, t_philo *philo);
 void		*routine(void *s_data);
 uint64_t	get_time_in_ms(void);
 void		*die_thread(void *s_data);
-void		print_info(u_int64_t time, int index, char *txt, char *COLORCODE);
+void		print_info(u_int64_t time, t_philo *philo, char *txt, char *COLORCODE);
 bool		check_argument(char **argv, int argc);
 void		create_thread(t_data *data);
 t_philo		*protect_t_philo(void);
 t_philo		**protect_double_t_philo(t_data *data);
 t_data		*protect_data(void);
 void		free_data(t_data *data);
+void	smart_sleep(uint64_t ms);
 #endif
