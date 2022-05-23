@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:25:13 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/20 14:13:48 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/23 11:37:02 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_info(u_int64_t time, t_philo *philo, char *txt, char *COLORCODE)
 	uint64_t	nu;
 	t_data		*data;
 
-	data  = philo->data;
+	data = philo->data;
 	pthread_mutex_lock(&data->print);
 	nu = get_time_in_ms();
 	printf("%s[%llu] [%d] %s\n" WHITE, COLORCODE, nu - time, philo->index, txt);
@@ -45,17 +45,15 @@ void	to_eat(t_philo *philo)
 		% philo->data->number_of_philosophers]->fork);
 	print_info(philo->data->first_time, philo,
 		"has taken r fork", PURPLE);
-	pthread_mutex_lock(&philo->eat);
 	philo->is_eat = true;
 	philo->ate_circlu++;
 	philo->ate_time = get_time_in_ms();
 	print_info(philo->data->first_time, philo, "is eating", GREEN);
 	smart_sleep(data->time_to_eat);
 	philo->is_eat = false;
-	pthread_mutex_unlock(&philo->eat);
-	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&philo->data->philo[(philo->index)
 		% philo->data->number_of_philosophers]->fork);
+	pthread_mutex_unlock(&philo->fork);
 }
 
 void	*routine(void *s_data)

@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/19 14:07:30 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/23 11:37:24 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	smart_sleep(uint64_t ms)
 	while ((get_time_in_ms() - entry) < ms)
 		usleep(100);
 }
-
 
 void	free_data(t_data *data)
 {
