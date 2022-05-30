@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/23 11:37:24 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/24 15:52:22 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,14 @@ int	main(int argc, char *argv[])
 	t_data	*data;
 
 	if (!check_argument(argv, argc))
-		exit(-1);
-	data = protect_data();
-	fill_data(argv, data);
-	create_thread(data);
+		return (FALSE);
+	data = (t_data *)malloc(sizeof(t_data));
+	if (!data)
+		return (FALSE);
+	if (!fill_data(argv, data))
+		return (FALSE);
+	if (!create_thread(data))
+		return (FALSE);
+	free_data(data);
 	return (EXIT_SUCCESS);
 }

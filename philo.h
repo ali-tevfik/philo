@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 16:37:00 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/23 11:38:10 by adoner        ########   odam.nl         */
+/*   Updated: 2022/05/30 13:03:12 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,23 @@
 # define WHITE "\033[0;37m"
 # define YELLOW "\033[0;33m"
 # define PURPLE "\033[0;35m"
+# define TRUE 1
+# define FALSE 0
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdbool.h>
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <string.h>
 
 typedef struct s_philo
 {
 	pthread_mutex_t	fork;
 	pthread_t		thread;
 	uint64_t		ate_time;
-	bool			is_eat;
+	int				is_eat;
 	int				index;
-	int				ate_circlu;
+	int				ate_circle;
 	struct s_data	*data;
 }					t_philo;
 
@@ -51,24 +51,21 @@ typedef struct s_data
 	int				time_to_eat;
 	int				number_of_philosophers;
 	int				must_eat;
-	bool			dead;
+	int				dead;
 	int				philo_eat_turn;
 	t_philo			**philo;
 }					t_data;
 
 int			ft_atoi(const char *str);
-void		fill_data(char **argv, t_data *data);
+int			fill_data(char **argv, t_data *data);
 void		is_dead(uint64_t oude_tijd, t_philo *philo);
 void		*routine(void *s_data);
 uint64_t	get_time_in_ms(void);
 void		*die_thread(void *s_data);
 void		print_info(u_int64_t time, t_philo *philo,
 				char *txt, char *COLORCODE);
-bool		check_argument(char **argv, int argc);
-void		create_thread(t_data *data);
-t_philo		*protect_t_philo(void);
-t_philo		**protect_double_t_philo(t_data *data);
-t_data		*protect_data(void);
+int			check_argument(char **argv, int argc);
+int			create_thread(t_data *data);
 void		free_data(t_data *data);
 void		smart_sleep(uint64_t ms);
 #endif

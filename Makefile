@@ -6,7 +6,7 @@
 #    By: adoner <adoner@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/01 13:16:02 by adoner        #+#    #+#                  #
-#    Updated: 2022/05/12 16:40:37 by adoner        ########   odam.nl          #
+#    Updated: 2022/05/24 15:52:33 by adoner        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ YELLOW = \033[1;33m
 
 # Compiler settings
 GCC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 DBG_FLAGS = -g -fsanitize=address
 
 # Source, tests, header and object files
@@ -28,7 +28,6 @@ SRC_FILES = philo.c \
 			init_data.c \
 			routine.c \
 			check_data.c \
-			protect_malloc.c \
 			died.c
 
 HEADER_FILES = 	philo.h
