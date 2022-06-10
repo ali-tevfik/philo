@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:20:47 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/30 11:13:00 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/10 16:56:35 by tevfik        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 int	create_mutex(t_data *data, int i)
 {
 	if (pthread_mutex_init(&data->philo[i]->fork, NULL) != 0)
+	{
+		perror("\n mutex init failed\n");
+		return (FALSE);
+	}
+	if (pthread_mutex_init(&data->philo[i]->eat, NULL) != 0)
 	{
 		perror("\n mutex init failed\n");
 		return (FALSE);
@@ -61,6 +66,12 @@ int	fill_data(char **argv, t_data *data)
 		perror("\n mutex init failed\n");
 		return (FALSE);
 	}
+
+	if (pthread_mutex_init(&data->dead_mutex, NULL) != 0)
+	{
+		perror("\n mutex init failed\n");
+		return (FALSE);
+	}
 	data->number_of_philosophers = ft_atoi(argv[1]);
 	if (argv[5])
 		data->must_eat = ft_atoi(argv[5]);
@@ -88,8 +99,17 @@ int	create_thread(t_data *data)
 		pthread_detach(data->philo[x]->thread);
 		x++;
 	}
-	if (pthread_create(&data->check_dead, NULL, die_thread, &data) != 0)
-		return (FALSE);
-	pthread_join(data->check_dead, NULL);
+	x = 0;
+	while (x < i)
+	{
+		
+		if (pthread_create(&data->philo[x]->check_dead, NULL,
+				die_thread, &data->philo[x]) != 0)
+			return (FALSE);
+		usleep(100);
+		pthread_join(data->philo[x]->check_dead, NULL);
+		
+		x++;
+	}
 	return (TRUE);
 }

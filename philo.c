@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/24 15:52:22 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/10 15:39:52 by tevfik        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ void	free_data(t_data *data)
 	while (data->philo[i])
 	{
 		pthread_mutex_destroy(&data->philo[i]->fork);
+		pthread_mutex_destroy(&data->philo[i]->eat);
 		pthread_detach(data->philo[i]->thread);
+		pthread_detach(data->philo[i]->check_dead);
 		free(data->philo[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&data->print);
 	if (data->philo)
 		free(data->philo);
-	if (data->check_dead)
-		pthread_detach(data->check_dead);
 }
 
 int	main(int argc, char *argv[])

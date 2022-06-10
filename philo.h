@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 16:37:00 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/30 13:03:12 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/10 16:54:32 by tevfik        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@
 
 typedef struct s_philo
 {
+	pthread_mutex_t	eat;
 	pthread_mutex_t	fork;
 	pthread_t		thread;
+	pthread_t		check_dead;
 	uint64_t		ate_time;
 	int				is_eat;
 	int				index;
@@ -45,8 +47,8 @@ typedef struct s_data
 {
 	uint64_t		first_time;
 	pthread_mutex_t	print;
+	pthread_mutex_t	dead_mutex;
 	uint64_t		time_to_die;
-	pthread_t		check_dead;
 	int				time_to_sleep;
 	int				time_to_eat;
 	int				number_of_philosophers;
