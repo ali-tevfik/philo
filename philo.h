@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 16:37:00 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/13 17:06:19 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/13 17:22:28 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ typedef struct s_data
 }					t_data;
 
 int			ft_atoi(const char *str);
+int			is_dead(t_philo *philo);
 int			fill_data(char **argv, t_data *data);
-void		is_dead(uint64_t oude_tijd, t_philo *philo);
 void		*routine(void *s_data);
 uint64_t	get_time_in_ms(void);
 void		*die_thread(void *s_data);

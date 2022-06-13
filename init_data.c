@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:20:47 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/13 17:07:57 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/13 17:28:22 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,11 @@ int	fill_data(char **argv, t_data *data)
 
 int	create_thread(t_data *data)
 {
-	int	i;
 	int	x;
-	int	j;
 
-	j = 0;
 	x = 0;
-	i = data->number_of_philosophers;
 	data->first_time = get_time_in_ms();
-	while (i > x)
+	while (data->number_of_philosophers > x)
 	{
 		if (pthread_create(&(data->philo[x]->thread), NULL,
 				(void *)routine, (void *)data->philo[x]) != 0)
@@ -104,17 +100,15 @@ int	create_thread(t_data *data)
 		x++;
 	}
 	x = 0;
-	while (i > x)
+	while (data->number_of_philosophers > x)
 	{
-		if (pthread_create(&(data->philo[x]->check_dead), NULL, (void *)die_thread, (void *)data->philo[x]) != 0)
+		if (pthread_create(&(data->philo[x]->check_dead),
+				NULL, (void *)die_thread, (void *)data->philo[x]) != 0)
 			return (FALSE);
 		x++;
 	}
 	x = 0;
-	while (i > x)
-	{
-		pthread_join(data->philo[x]->check_dead, NULL);
-		x++;
-	}
+	while (data->number_of_philosophers > x)
+		pthread_join(data->philo[x++]->check_dead, NULL);
 	return (TRUE);
 }
