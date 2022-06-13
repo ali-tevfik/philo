@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/13 16:01:30 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/13 16:45:10 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	free_data(t_data *data)
 		free(data->philo[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&data->died_data);
 	pthread_mutex_destroy(&data->print);
 	while (data->philo[i])
 	{

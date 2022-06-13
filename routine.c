@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:25:13 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/13 16:02:13 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/13 17:14:32 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,33 @@ void	print_info(u_int64_t time, t_philo *philo, char *txt, char *COLORCODE)
 void	to_eat(t_philo *philo)
 {
 	t_data	*data;
-
+	int		died;
 	data = ((t_data *)philo->data);
+	pthread_mutex_lock(&philo->data->died_data);	
+	if (philo->data->dead)
+	{
+		pthread_mutex_unlock(&philo->data->died_data);
+		return;
+	}
+	pthread_mutex_unlock(&philo->data->died_data);	
 	pthread_mutex_lock(&philo->fork);
-	print_info(philo->first_time, philo,
+	print_info(philo->data->first_time, philo,
 		"has taken l fork", PURPLE);
 	pthread_mutex_lock(&philo->data->philo[(philo->index)
 		% philo->data->number_of_philosophers]->fork);
-	print_info(philo->first_time, philo,
+	print_info(philo->data->first_time, philo,
 		"has taken r fork", PURPLE);
 	pthread_mutex_lock(&philo->eat);
 	philo->is_eat = TRUE;
 	philo->ate_circle++;
+	pthread_mutex_lock(&philo->ate_time_mutex);
 	philo->ate_time = get_time_in_ms();
-	print_info(philo->first_time, philo, "is eating", GREEN);
-	if (!philo->data->dead)
+	pthread_mutex_unlock(&philo->ate_time_mutex);
+	print_info(philo->data->first_time, philo, "is eating", GREEN);
+	pthread_mutex_lock(&philo->data->died_data);
+	died = !philo->data->dead;
+	pthread_mutex_unlock(&philo->data->died_data);
+	if (died)
 		smart_sleep(data->time_to_eat);
 	philo->is_eat = FALSE;
 	pthread_mutex_unlock(&philo->eat);
@@ -54,10 +66,12 @@ void	*routine(void *s_data)
 {
 	t_philo	*philo;
 	int		x;
+	int		died;
 
+	died = 1;
 	philo = (t_philo *)s_data;
 	x = 0;
-	while (!philo->data->dead)
+	while (died)
 	{
 		to_eat(philo);
 		if (philo->ate_circle
@@ -66,9 +80,16 @@ void	*routine(void *s_data)
 			philo->data->philo_eat_turn++;
 			return (NULL);
 		}
-		print_info(philo->first_time, philo, "is sleeping", BLUE);
+		pthread_mutex_lock(&philo->data->died_data);	
+		died = !philo->data->dead;
+		if (!died)
+		{
+			pthread_mutex_unlock(&philo->data->died_data);
+			return (NULL);}
+		pthread_mutex_unlock(&philo->data->died_data);
+		print_info(philo->data->first_time, philo, "is sleeping", BLUE);
 		smart_sleep(philo->data->time_to_sleep);
-		print_info(philo->first_time, philo,
+		print_info(philo->data->first_time, philo,
 			"is thinking", YELLOW);
 	}
 	return (NULL);
