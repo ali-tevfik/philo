@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:25:13 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/10 17:01:20 by tevfik        ########   odam.nl         */
+/*   Updated: 2022/06/13 16:02:13 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,67 +24,52 @@ void	print_info(u_int64_t time, t_philo *philo, char *txt, char *COLORCODE)
 	pthread_mutex_unlock(&data->print);
 }
 
-void	to_sleep(t_philo *philo)
-{
-	t_data	*data;
-
-	data = ((t_data *)philo->data);
-	pthread_mutex_lock(&philo->data->dead_mutex);
-	if (!philo->data->dead)
-	{
-		print_info(philo->data->first_time, philo, "is sleeping", BLUE);
-		smart_sleep(data->time_to_sleep);
-	}
-	pthread_mutex_unlock(&philo->data->dead_mutex);
-}
-
 void	to_eat(t_philo *philo)
 {
 	t_data	*data;
 
 	data = ((t_data *)philo->data);
 	pthread_mutex_lock(&philo->fork);
-	print_info(philo->data->first_time, philo,
+	print_info(philo->first_time, philo,
 		"has taken l fork", PURPLE);
 	pthread_mutex_lock(&philo->data->philo[(philo->index)
 		% philo->data->number_of_philosophers]->fork);
-	print_info(philo->data->first_time, philo,
+	print_info(philo->first_time, philo,
 		"has taken r fork", PURPLE);
 	pthread_mutex_lock(&philo->eat);
 	philo->is_eat = TRUE;
 	philo->ate_circle++;
 	philo->ate_time = get_time_in_ms();
-	print_info(philo->data->first_time, philo, "is eating", GREEN);
-	smart_sleep(data->time_to_eat);
+	print_info(philo->first_time, philo, "is eating", GREEN);
+	if (!philo->data->dead)
+		smart_sleep(data->time_to_eat);
 	philo->is_eat = FALSE;
 	pthread_mutex_unlock(&philo->eat);
+	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&philo->data->philo[(philo->index)
 		% philo->data->number_of_philosophers]->fork);
-	pthread_mutex_unlock(&philo->fork);
 }
 
 void	*routine(void *s_data)
 {
-	t_philo	**philo;
+	t_philo	*philo;
 	int		x;
 
-	philo = (t_philo **)s_data;
+	philo = (t_philo *)s_data;
 	x = 0;
-	pthread_mutex_lock(&(*philo)->data->dead_mutex);
-	while (!(*philo)->data->dead)
+	while (!philo->data->dead)
 	{
-		pthread_mutex_unlock(&(*philo)->data->dead_mutex);
-		to_eat(*philo);
-		if ((*philo)->ate_circle == (*philo)->data->must_eat)
+		to_eat(philo);
+		if (philo->ate_circle
+			== philo->data->must_eat)
 		{
-			(*philo)->data->philo_eat_turn++;
+			philo->data->philo_eat_turn++;
 			return (NULL);
 		}
-		to_sleep(*philo);
-		print_info((*philo)->data->first_time, (*philo),
+		print_info(philo->first_time, philo, "is sleeping", BLUE);
+		smart_sleep(philo->data->time_to_sleep);
+		print_info(philo->first_time, philo,
 			"is thinking", YELLOW);
-	pthread_mutex_lock(&(*philo)->data->dead_mutex);
 	}
-	pthread_mutex_unlock(&(*philo)->eat);
 	return (NULL);
 }

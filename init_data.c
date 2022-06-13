@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:20:47 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/10 16:56:35 by tevfik        ########   odam.nl         */
+/*   Updated: 2022/06/13 16:02:03 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	init_philo_mutex(t_data *data)
 	int	i;
 
 	data->philo = (t_philo **)malloc(sizeof(t_philo *)
-			* (data->number_of_philosophers + 1));
+			* (data->number_of_philosophers));
 	if (!data->philo)
 		return (FALSE);
 	i = 0;
@@ -66,12 +66,6 @@ int	fill_data(char **argv, t_data *data)
 		perror("\n mutex init failed\n");
 		return (FALSE);
 	}
-
-	if (pthread_mutex_init(&data->dead_mutex, NULL) != 0)
-	{
-		perror("\n mutex init failed\n");
-		return (FALSE);
-	}
 	data->number_of_philosophers = ft_atoi(argv[1]);
 	if (argv[5])
 		data->must_eat = ft_atoi(argv[5]);
@@ -89,26 +83,27 @@ int	create_thread(t_data *data)
 	j = 0;
 	x = 0;
 	i = data->number_of_philosophers;
-	data->first_time = get_time_in_ms();
 	while (i > x)
 	{
-		if (pthread_create(&data->philo[x]->thread, NULL,
-				routine, &data->philo[x]) != 0)
+		data->philo[x]->first_time = get_time_in_ms();
+		if (pthread_create(&(data->philo[x]->thread), NULL,
+				(void *)routine, (void *)data->philo[x]) != 0)
 			return (FALSE);
-		usleep(100);
 		pthread_detach(data->philo[x]->thread);
+		usleep(100);
 		x++;
 	}
 	x = 0;
-	while (x < i)
+	while (i > x)
 	{
-		
-		if (pthread_create(&data->philo[x]->check_dead, NULL,
-				die_thread, &data->philo[x]) != 0)
+		if (pthread_create(&(data->philo[x]->check_dead), NULL, (void *)die_thread, (void *)data->philo[x]) != 0)
 			return (FALSE);
-		usleep(100);
+		x++;
+	}
+	x = 0;
+	while (i > x)
+	{
 		pthread_join(data->philo[x]->check_dead, NULL);
-		
 		x++;
 	}
 	return (TRUE);
