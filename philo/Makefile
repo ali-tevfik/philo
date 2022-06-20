@@ -6,7 +6,7 @@
 #    By: adoner <adoner@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/01 13:16:02 by adoner        #+#    #+#                  #
-#    Updated: 2022/06/13 17:35:46 by adoner        ########   odam.nl          #
+#    Updated: 2022/06/20 21:57:38 by tevfik        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ YELLOW = \033[1;33m
 
 # Compiler settings
 GCC = gcc
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
-# FLAGS   = -Wall -Wextra -Werror -pthread
+# FLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
+FLAGS   = -Wall -Wextra -Werror -pthread
 DBG_FLAGS = -g -fsanitize=address
 
 # Source, tests, header and object files

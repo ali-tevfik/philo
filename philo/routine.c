@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:25:13 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/13 17:38:28 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/20 18:20:13 by tevfik        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ void	to_eat(t_philo *philo)
 	t_data	*data;
 
 	data = ((t_data *)philo->data);
-	if (!is_dead(philo))
-		return ;
 	pthread_mutex_lock(&philo->fork);
+	if (!is_dead(philo))
+	{
+		pthread_mutex_unlock(&philo->fork);
+		return ;
+	}
 	print_info(philo->data->first_time, philo,
 		"has taken l fork", PURPLE);
 	pthread_mutex_lock(&philo->data->philo[(philo->index)
@@ -63,10 +66,11 @@ void	*routine(void *s_data)
 	while (is_dead(philo))
 	{
 		to_eat(philo);
-		if (philo->ate_circle
-			== philo->data->must_eat)
+		if (philo->ate_circle == philo->data->must_eat)
 		{
+			pthread_mutex_lock(&philo->data->turn);
 			philo->data->philo_eat_turn++;
+			pthread_mutex_unlock(&philo->data->turn);
 			return (NULL);
 		}
 		if (!is_dead(philo))

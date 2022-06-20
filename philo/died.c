@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 16:31:07 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/13 17:32:12 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/20 18:21:23 by tevfik        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,17 @@ void	*die_thread(void *s_philo)
 {
 	t_philo		*philo;
 	uint64_t	ate_time;
-
+	int			turn;
 	philo = (t_philo *)s_philo;
 	while (is_dead(philo))
 	{
-		if (philo->data->number_of_philosophers == philo->data->philo_eat_turn)
+		pthread_mutex_lock(&philo->data->turn);
+		turn = philo->data->philo_eat_turn;
+		pthread_mutex_unlock(&philo->data->turn);
+		if (philo->data->number_of_philosophers == turn){
+			// printf("girdi!\n");
 			return (NULL);
+		}
 		pthread_mutex_lock(&philo->ate_time_mutex);
 		ate_time = philo->ate_time;
 		pthread_mutex_unlock(&philo->ate_time_mutex);
@@ -46,6 +51,7 @@ void	*die_thread(void *s_philo)
 			pthread_mutex_unlock(&philo->eat);
 			return (NULL);
 		}	
+		usleep(100);
 	}
 	return (NULL);
 }

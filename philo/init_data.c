@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:20:47 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/13 17:28:22 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/20 18:19:45 by tevfik        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ int	fill_data(char **argv, t_data *data)
 	data->philo_eat_turn = 0;
 	data->dead = FALSE;
 	if (pthread_mutex_init(&data->print, NULL) != 0)
+	{
+		perror("\n mutex init failed\n");
+		return (FALSE);
+	}
+	if (pthread_mutex_init(&data->turn, NULL) != 0)
 	{
 		perror("\n mutex init failed\n");
 		return (FALSE);

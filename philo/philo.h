@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 16:37:00 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/13 17:22:28 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/20 21:55:35 by tevfik        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 {
 	pthread_mutex_t	died_data;
 	pthread_mutex_t	print;
+	pthread_mutex_t	turn;
 	uint64_t		first_time;
 	uint64_t		time_to_die;
 	int				time_to_sleep;
@@ -69,6 +70,5 @@ void		print_info(u_int64_t time, t_philo *philo,
 				char *txt, char *COLORCODE);
 int			check_argument(char **argv, int argc);
 int			create_thread(t_data *data);
-void		free_data(t_data *data);
 void		smart_sleep(uint64_t ms);
 #endif
