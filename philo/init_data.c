@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:20:47 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 16:00:21 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/21 17:54:36 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,8 @@ int	init_philo_mutex(t_data *data)
 	return (TRUE);
 }
 
-int	fill_data(char **argv, t_data *data)
+int	create_data_mutex(t_data *data)
 {
-	data->time_to_die = ft_atoi(argv[2]);
-	data->time_to_eat = ft_atoi(argv[3]);
-	data->time_to_sleep = ft_atoi(argv[4]);
-	data->philo_eat_turn = 0;
-	data->dead = FALSE;
 	if (pthread_mutex_init(&data->print, NULL) != 0)
 	{
 		perror("\n mutex init failed\n");
@@ -80,6 +75,18 @@ int	fill_data(char **argv, t_data *data)
 		perror("\n mutex init failed\n");
 		return (FALSE);
 	}
+	return (TRUE);
+}
+
+int	fill_data(char **argv, t_data *data)
+{
+	data->time_to_die = ft_atoi(argv[2]);
+	data->time_to_eat = ft_atoi(argv[3]);
+	data->time_to_sleep = ft_atoi(argv[4]);
+	data->philo_eat_turn = 0;
+	data->dead = FALSE;
+	if (!create_data_mutex(data))
+		return (FALSE);
 	data->number_of_philosophers = ft_atoi(argv[1]);
 	if (argv[5])
 		data->must_eat = ft_atoi(argv[5]);

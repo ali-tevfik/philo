@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 16:26:33 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/21 17:54:49 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ int	main(int argc, char *argv[])
 		return (FALSE);
 	if (!create_thread(data))
 		return (FALSE);
-	// free_data(data);
 	return (TRUE);
 }
