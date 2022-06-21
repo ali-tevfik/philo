@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:20:47 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/20 18:19:45 by tevfik        ########   odam.nl         */
+/*   Updated: 2022/06/21 16:00:21 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	init_philo_mutex(t_data *data)
 			return (FALSE);
 		i++;
 	}
-	data->philo[i] = NULL;
 	return (TRUE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/20 21:55:46 by tevfik        ########   odam.nl         */
+/*   Updated: 2022/06/21 16:26:33 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,17 @@ void	free_data(t_data *data)
 {
 	int	i;
 
+	if (!data)
+		return ;
 	i = 0;
-	while (data->philo[i])
+	pthread_mutex_destroy(&data->died_data);
+	pthread_mutex_destroy(&data->turn);
+	pthread_mutex_destroy(&data->print);
+	while (data->number_of_philosophers > i)
 	{
 		pthread_mutex_destroy(&data->philo[i]->fork);
 		pthread_mutex_destroy(&data->philo[i]->eat);
-		free(data->philo[i]);
-		i++;
-	}
-	// if (data->died_data != NULL)
-	// 	pthread_mutex_destroy(&data->died_data);
-	pthread_mutex_destroy(&data->print);
-	while (data->philo[i])
-	{
+		pthread_mutex_destroy(&data->philo[i]->ate_time_mutex);
 		free(data->philo[i]);
 		i++;
 	}
@@ -58,5 +56,5 @@ int	main(int argc, char *argv[])
 	if (!create_thread(data))
 		return (FALSE);
 	// free_data(data);
-	return (EXIT_SUCCESS);
+	return (TRUE);
 }
