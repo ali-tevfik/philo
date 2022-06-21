@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:25:13 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 15:59:35 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/21 17:59:33 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ void	print_info(u_int64_t time, t_philo *philo, char *txt, char *COLORCODE)
 
 void	to_eat(t_philo *philo)
 {
-	t_data	*data;
-
-	data = ((t_data *)philo->data);
 	pthread_mutex_lock(&philo->fork);
 	if (!is_dead(philo))
 	{
@@ -48,7 +45,7 @@ void	to_eat(t_philo *philo)
 	philo->ate_time = get_time_in_ms();
 	pthread_mutex_unlock(&philo->ate_time_mutex);
 	print_info(philo->data->first_time, philo, "is eating", GREEN);
-	smart_sleep(data->time_to_eat);
+	smart_sleep(philo->data->time_to_eat);
 	philo->is_eat = FALSE;
 	pthread_mutex_unlock(&philo->eat);
 	pthread_mutex_unlock(&philo->fork);

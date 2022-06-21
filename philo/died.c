@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 16:31:07 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 16:27:24 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/21 17:57:34 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ int	is_dead(t_philo *philo)
 	died = !philo->data->dead;
 	pthread_mutex_unlock(&philo->data->died_data);
 	return (died);
+}
+
+void	*die(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->eat);
+	pthread_mutex_lock(&philo->data->died_data);
+	if (!philo->data->dead)
+		print_info(philo->data->first_time, philo, "died", RED);
+	philo->data->dead = TRUE;
+	pthread_mutex_unlock(&philo->data->died_data);
+	pthread_mutex_unlock(&philo->eat);
+	return (NULL);
 }
 
 void	*die_thread(void *s_philo)
@@ -40,16 +52,7 @@ void	*die_thread(void *s_philo)
 		ate_time = philo->ate_time;
 		pthread_mutex_unlock(&philo->ate_time_mutex);
 		if (get_time_in_ms() - ate_time > philo->data->time_to_die)
-		{
-			pthread_mutex_lock(&philo->eat);
-			pthread_mutex_lock(&philo->data->died_data);
-			if (!philo->data->dead)
-				print_info(philo->data->first_time, philo, "died", RED);
-			philo->data->dead = TRUE;
-			pthread_mutex_unlock(&philo->data->died_data);
-			pthread_mutex_unlock(&philo->eat);
-			return (NULL);
-		}	
+			return (die(philo));
 		usleep(100);
 	}
 	return (NULL);
