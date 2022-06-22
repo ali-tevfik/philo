@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/22 14:09:56 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/22 14:32:25 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	smart_sleep(uint64_t ms)
 		usleep(100);
 }
 
-void	free_data(t_data *data)
+int	free_data(t_data *data)
 {
 	int	i;
 
-	smart_sleep(data->time_to_die);
 	if (!data)
-		return ;
+		return (FALSE);
+	smart_sleep(data->time_to_die);
 	i = 0;
 	pthread_mutex_destroy(&data->died_data);
 	pthread_mutex_destroy(&data->turn);
@@ -41,6 +41,7 @@ void	free_data(t_data *data)
 		i++;
 	}
 	free(data);
+	return (FALSE);
 }
 
 int	main(int argc, char *argv[])
@@ -53,9 +54,9 @@ int	main(int argc, char *argv[])
 	if (!data)
 		return (FALSE);
 	if (!fill_data(argv, data))
-		return (FALSE);
+		return (free_data(data));
 	if (!create_thread(data))
-		return (FALSE);
+		return (free_data(data));
 	free_data(data);
 	return (TRUE);
 }

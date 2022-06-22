@@ -6,12 +6,12 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/10 10:51:48 by adoner        #+#    #+#                 */
-/*   Updated: 2022/05/10 11:33:57 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/22 14:20:34 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-//atoi
+
 static	int	checkspace(const char *s)
 {
 	int	i;
@@ -56,8 +56,6 @@ int	ft_atoi(const char *str)
 	}
 	return (total * control);
 }
-
-//end atoi
 
 uint64_t	get_time_in_ms(void)
 {

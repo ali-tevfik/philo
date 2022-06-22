@@ -6,14 +6,14 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 16:37:00 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 18:43:10 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/22 14:19:39 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-// color code
+// Color Code
 # define RED "\033[0;31m"
 # define BLUE "\033[0;34m"
 # define GREEN "\033[0;32m"
