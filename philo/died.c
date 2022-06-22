@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/09 16:31:07 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 17:57:34 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/21 18:41:59 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@ void	*die(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->eat);
 	pthread_mutex_lock(&philo->data->died_data);
-	if (!philo->data->dead)
-		print_info(philo->data->first_time, philo, "died", RED);
 	philo->data->dead = TRUE;
+	if (philo->data->died_print)
+	{
+		printf("%s[%llu] [%d] %s\n" WHITE, RED,
+			get_time_in_ms() - philo->data->first_time, philo->index, "died");
+	}
+	philo->data->died_print = FALSE;
 	pthread_mutex_unlock(&philo->data->died_data);
 	pthread_mutex_unlock(&philo->eat);
 	return (NULL);

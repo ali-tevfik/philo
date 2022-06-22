@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:20:47 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 17:54:36 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/21 18:38:24 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	fill_data(char **argv, t_data *data)
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
+	data->died_print = TRUE;
 	data->philo_eat_turn = 0;
 	data->dead = FALSE;
 	if (!create_data_mutex(data))

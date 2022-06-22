@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/12 16:37:00 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 13:57:33 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/21 18:43:10 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_data
 	uint64_t		first_time;
 	uint64_t		time_to_die;
 	int				time_to_sleep;
+	int				died_print;
 	int				time_to_eat;
 	int				number_of_philosophers;
 	int				must_eat;
@@ -70,6 +71,5 @@ void		print_info(u_int64_t time, t_philo *philo,
 				char *txt, char *COLORCODE);
 int			check_argument(char **argv, int argc);
 int			create_thread(t_data *data);
-// void		free_data(t_data *data);
 void		smart_sleep(uint64_t ms);
 #endif

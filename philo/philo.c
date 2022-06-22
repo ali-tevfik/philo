@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 17:54:49 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/22 14:09:56 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	free_data(t_data *data)
 {
 	int	i;
 
+	smart_sleep(data->time_to_die);
 	if (!data)
 		return ;
 	i = 0;
@@ -55,5 +56,6 @@ int	main(int argc, char *argv[])
 		return (FALSE);
 	if (!create_thread(data))
 		return (FALSE);
+	free_data(data);
 	return (TRUE);
 }

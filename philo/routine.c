@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:25:13 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/21 17:59:33 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/21 18:35:43 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ void	print_info(u_int64_t time, t_philo *philo, char *txt, char *COLORCODE)
 	t_data		*data;
 
 	data = philo->data;
+	pthread_mutex_lock(&philo->data->died_data);
+	if (philo->data->dead)
+	{
+		pthread_mutex_unlock(&philo->data->died_data);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->died_data);
 	pthread_mutex_lock(&data->print);
 	nu = get_time_in_ms();
 	printf("%s[%llu] [%d] %s\n" WHITE, COLORCODE, nu - time, philo->index, txt);
@@ -27,11 +34,6 @@ void	print_info(u_int64_t time, t_philo *philo, char *txt, char *COLORCODE)
 void	to_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->fork);
-	if (!is_dead(philo))
-	{
-		pthread_mutex_unlock(&philo->fork);
-		return ;
-	}
 	print_info(philo->data->first_time, philo,
 		"has taken l fork", PURPLE);
 	pthread_mutex_lock(&philo->data->philo[(philo->index)
@@ -70,8 +72,6 @@ void	*routine(void *s_data)
 			pthread_mutex_unlock(&philo->data->turn);
 			return (NULL);
 		}
-		if (!is_dead(philo))
-			return (NULL);
 		print_info(philo->data->first_time, philo, "is sleeping", BLUE);
 		smart_sleep(philo->data->time_to_sleep);
 		print_info(philo->data->first_time, philo,
