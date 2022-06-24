@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/22 14:32:25 by adoner        ########   odam.nl         */
+/*   Updated: 2022/06/24 14:45:42 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	free_data(t_data *data)
 		free(data->philo[i]);
 		i++;
 	}
+	free(data->philo);
 	free(data);
 	return (FALSE);
 }
