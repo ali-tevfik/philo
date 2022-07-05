@@ -6,7 +6,7 @@
 #    By: adoner <adoner@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/01 13:16:02 by adoner        #+#    #+#                  #
-#    Updated: 2022/06/22 14:22:28 by adoner        ########   odam.nl          #
+#    Updated: 2022/07/05 15:49:13 by adoner        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ YELLOW = \033[1;33m
 # Compiler settings
 GCC = gcc
 # FLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
+# FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+# FLAGS = -Wall -Wextra -Werror -g
 FLAGS   = -Wall -Wextra -Werror -pthread
 
 # Source, tests, header and object files

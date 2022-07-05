@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 16:09:58 by adoner        #+#    #+#                 */
-/*   Updated: 2022/06/24 14:45:42 by adoner        ########   odam.nl         */
+/*   Updated: 2022/07/05 15:49:01 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ void	smart_sleep(uint64_t ms)
 
 int	free_data(t_data *data)
 {
-	int	i;
+	int		i;
+	t_philo	**philo;
 
 	if (!data)
 		return (FALSE);
-	smart_sleep(data->time_to_die);
+	philo = data->philo;
+	smart_sleep(data->time_to_die + 1100);
 	i = 0;
 	pthread_mutex_destroy(&data->died_data);
 	pthread_mutex_destroy(&data->turn);
@@ -37,11 +39,13 @@ int	free_data(t_data *data)
 		pthread_mutex_destroy(&data->philo[i]->fork);
 		pthread_mutex_destroy(&data->philo[i]->eat);
 		pthread_mutex_destroy(&data->philo[i]->ate_time_mutex);
-		free(data->philo[i]);
 		i++;
 	}
-	free(data->philo);
 	free(data);
+	i--;
+	while (i >= 0)
+		free(philo[i--]);
+	free(philo);
 	return (FALSE);
 }
 
@@ -59,5 +63,6 @@ int	main(int argc, char *argv[])
 	if (!create_thread(data))
 		return (free_data(data));
 	free_data(data);
+	// system("leaks philo");
 	return (TRUE);
 }
