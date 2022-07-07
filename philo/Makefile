@@ -6,7 +6,7 @@
 #    By: adoner <adoner@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/01 13:16:02 by adoner        #+#    #+#                  #
-#    Updated: 2022/07/05 15:49:13 by adoner        ########   odam.nl          #
+#    Updated: 2022/07/07 15:18:22 by adoner        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ $(OBJ_DIR):
 
 $(NAME): $(OBJ)
 	$(GCC) $(FLAGS) $^ -o $@
-	@echo "$(GREEN) Created minishell executable.$(NORMAL)"
+	@echo "$(GREEN) Created philo executable.$(NORMAL)"
 
 $(OBJ): $(OBJ_DIR)/%.o : %.c $(HEADER_FILES)
 	@mkdir -p $(@D)

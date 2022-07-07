@@ -6,7 +6,7 @@
 /*   By: adoner <adoner@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/06 12:20:47 by adoner        #+#    #+#                 */
-/*   Updated: 2022/07/05 15:38:44 by adoner        ########   odam.nl         */
+/*   Updated: 2022/07/07 15:18:34 by adoner        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ int	create_mutex(t_data *data, int i)
 {
 	if (pthread_mutex_init(&data->philo[i]->fork, NULL) != 0)
 	{
-		perror("\n mutex init failed\n");
+		printf("\n mutex init failed\n");
 		return (FALSE);
 	}
 	if (pthread_mutex_init(&data->philo[i]->eat, NULL) != 0)
 	{
-		perror("\n mutex init failed\n");
+		printf("\n mutex init failed\n");
 		return (FALSE);
 	}
 	if (pthread_mutex_init(&data->philo[i]->ate_time_mutex, NULL) != 0)
 	{
-		perror("\n mutex init failed\n");
+		printf("\n mutex init failed\n");
 		return (FALSE);
 	}
 	return (TRUE);
@@ -62,17 +62,17 @@ int	create_data_mutex(t_data *data)
 {
 	if (pthread_mutex_init(&data->print, NULL) != 0)
 	{
-		perror("\n mutex init failed\n");
+		printf("\n mutex init failed\n");
 		return (FALSE);
 	}
 	if (pthread_mutex_init(&data->turn, NULL) != 0)
 	{
-		perror("\n mutex init failed\n");
+		printf("\n mutex init failed\n");
 		return (FALSE);
 	}
 	if (pthread_mutex_init(&data->died_data, NULL) != 0)
 	{
-		perror("\n mutex init failed\n");
+		printf("\n mutex init failed\n");
 		return (FALSE);
 	}
 	return (TRUE);
